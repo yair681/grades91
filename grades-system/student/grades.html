@@ -1,0 +1,17 @@
+<h1>הציונים שלי</h1>
+<div id="list"></div>
+
+<script>
+const user = JSON.parse(localStorage.getItem("student"));
+
+async function load() {
+    const res = await fetch("http://localhost:3000/grades/" + user.id);
+    const grades = await res.json();
+
+    list.innerHTML = grades.map(g =>
+        `<p>${g.subject} – ${g.grade} (${g.date})</p>`
+    ).join("");
+}
+
+load();
+</script>

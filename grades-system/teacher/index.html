@@ -1,0 +1,26 @@
+<h2>התחברות מורה</h2>
+<input id="user" placeholder="שם משתמש">
+<input id="pass" placeholder="סיסמה" type="password">
+<button onclick="login()">התחבר</button>
+
+<script>
+async function login() {
+    const username = user.value;
+    const password = pass.value;
+
+    const res = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (!data.success) return alert("שגיאה בהתחברות");
+
+    if (data.user.role === "teacher") {
+        localStorage.setItem("teacher", JSON.stringify(data.user));
+        window.location = "students.html";
+    }
+}
+</script>
